@@ -5,6 +5,7 @@ import com.streaming.movies.model.Movie;
 import com.streaming.movies.repository.GenreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 import com.streaming.movies.repository.MovieRepository;
 import com.streaming.movies.exception.ResourceNotFoundException;
@@ -30,10 +31,23 @@ public class MovieController {
         Movie movie = movieRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Movie not Found"));
         return ResponseEntity.ok().body(movie);
     }
-      @GetMapping("/movies/genre/{genreId}")
+
+    @GetMapping("/movies/genre/{genreId}")
     public ResponseEntity<List<Movie>> getMoviesByGenre(@PathVariable Long genreId) throws  ResourceNotFoundException {
         Genre genre = genreRepository.findById(genreId).orElseThrow(()-> new ResourceNotFoundException("Genre not found"));
           List<Movie> movies = movieRepository.findByGenre(genre);
         return ResponseEntity.ok().body(movies);
     }
+
+//    @GetMapping("/movies")
+//    public ResponseEntity<List<Movie>> getAll() {
+//        return ResponseEntity.ok().body(movieRepository.findAll());
+//    }
+
+    @GetMapping("/movies")
+    public ResponseEntity<List<Movie>> getByKeyWord(@RequestParam("keyWord") String keyWord) {
+      return ResponseEntity.ok().body(movieRepository.findByTitleContaining(keyWord));
+    }
+
+
 }

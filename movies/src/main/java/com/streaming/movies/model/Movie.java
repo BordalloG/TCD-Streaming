@@ -12,7 +12,7 @@ public class Movie {
     private String title;
     private String description;
     private int year;
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = true)
     private Genre genre;
 
     public Movie(){}
