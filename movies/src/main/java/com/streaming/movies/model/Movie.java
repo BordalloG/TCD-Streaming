@@ -8,61 +8,59 @@ import javax.persistence.*;
 public class Movie {
     @Id
     @GeneratedValue
-    private long Id;
-    private String Title;
-    private String Description;
-    private int Year;
+    private long id;
+    private String title;
+    private String description;
+    private int year;
     @ManyToOne(optional = false)
-    private Genre Genre;
+    private Genre genre;
 
-    public com.streaming.movies.model.Genre getGenre() {
-        return Genre;
-    }
-
-    public void setGenre(com.streaming.movies.model.Genre genre) {
-        Genre = genre;
-    }
-
-    public Movie(){
-        super();
-    }
+    public Movie(){}
 
     public Movie(String title, String description, int year, Genre genre) {
-        Title = title;
-        Description = description;
-        Year = year;
-        this.Genre = genre;
+        this.title = title;
+        this.description = description;
+        this.year = year;
+        this.genre = genre;
     }
 
     public long getId() {
-        return Id;
+        return id;
     }
 
     public void setId(long id) {
-        Id = id;
+        this.id = id;
     }
 
     public String getTitle() {
-        return Title;
+        return title;
     }
 
     public void setTitle(String title) {
-        Title = title;
+        this.title = title;
     }
 
     public String getDescription() {
-        return Description;
+        return description;
     }
 
     public void setDescription(String description) {
-        Description = description;
+        this.description = description;
     }
 
     public int getYear() {
-        return Year;
+        return year;
     }
 
     public void setYear(int year) {
-        Year = year;
+        this.year = year;
+    }
+
+    public Genre getGenre() {
+        return genre;
+    }
+
+    public void setGenre(Genre genre) {
+        this.genre = genre;
     }
 }

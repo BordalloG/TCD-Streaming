@@ -31,8 +31,9 @@ public class MovieController {
         return ResponseEntity.ok().body(movie);
     }
       @GetMapping("/movies/genre/{genreId}")
-    public ResponseEntity<Genre> getMoviesByGenre(@PathVariable Long genreId) throws  ResourceNotFoundException {
-//        List<Movie> movies = movieRepository.
-        return ResponseEntity.ok().body(genreRepository.findById(genreId).orElseThrow(()-> new ResourceNotFoundException("Genre not found")));
+    public ResponseEntity<List<Movie>> getMoviesByGenre(@PathVariable Long genreId) throws  ResourceNotFoundException {
+        Genre genre = genreRepository.findById(genreId).orElseThrow(()-> new ResourceNotFoundException("Genre not found"));
+          List<Movie> movies = movieRepository.findByGenre(genre);
+        return ResponseEntity.ok().body(movies);
     }
 }
