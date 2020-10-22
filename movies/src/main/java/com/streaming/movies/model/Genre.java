@@ -8,30 +8,30 @@ import javax.persistence.Table;
 @Entity
 @Table
 public class Genre {
-
-    public Genre() {}
-    public Genre( String title) {
-        Title = title;
-    }
-
     @Id
     @GeneratedValue
-    private long Id;
-    private String Title;
+    private long id;
+    private String title;
+
+    public Genre(){}
+
+    public Genre(String title) {
+        this.title = title;
+    }
 
     public long getId() {
-        return Id;
+        return id;
     }
 
     public void setId(long id) {
-        Id = id;
+        this.id = id;
     }
 
     public String getTitle() {
-        return Title;
+        return title;
     }
 
     public void setTitle(String title) {
-        Title = title;
+        this.title = title;
     }
 }
