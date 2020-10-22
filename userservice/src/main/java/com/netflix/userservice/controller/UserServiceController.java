@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.netflix.userservice.service.UserService;
 
 @RestController
-@RequestMapping(value = "/v1/productservice")
+@RequestMapping(value = "/v1/user")
 public class UserServiceController {
 
 	@Autowired
