@@ -16,8 +16,6 @@ public class MoviesApplication {
 	public static void main(String[] args)
 	{
 		SpringApplication.run(MoviesApplication.class, args);
-
-
 	}
 	@Bean
 	public CommandLineRunner mappingDemo(GenreRepository gr, MovieRepository mr) {

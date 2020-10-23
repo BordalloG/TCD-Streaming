@@ -1,2 +1,2 @@
 kafka_broker_url: kafka
-kafka_broker_port: 90921
+kafka_broker_port: 9092
