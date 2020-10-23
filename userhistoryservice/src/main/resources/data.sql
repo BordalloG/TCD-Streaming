@@ -3,7 +3,7 @@ CREATE TABLE tbl_userhistory (
  id INT AUTO_INCREMENT PRIMARY KEY,
  user_id INT NOT NULL,
  movie_id INT NOT NULL,
- view_date DATETIME NOT NULL
+ watch_date DATETIME NOT NULL
 );
 
 DROP TABLE IF EXISTS tbl_userwatchlist;
