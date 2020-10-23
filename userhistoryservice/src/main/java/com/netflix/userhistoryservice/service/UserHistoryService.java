@@ -11,4 +11,7 @@ public class UserHistoryService {
 	@Autowired
 	UserHistoryRepository userHistoryRepository;
 	
+	@Autowired
+	UserHistoryRepository userWatchListRepository;
+	
 }

@@ -9,8 +9,8 @@ import javax.persistence.Table;
 
 
 @Entity
-@Table(name = "tbl_userhistory")
-public class UserHistory {
+@Table(name = "tbl_userwatchlist")
+public class UserWatchList {
 
 	@Id
 	private int id;
@@ -21,21 +21,20 @@ public class UserHistory {
 	@Column(name = "movie_id")
 	private int movieId;
 	
-	@Column(name = "view_date")
-	private Date viewDate;
+	@Column(name = "registry_date")
+	private Date registryDate;
 	
 
-	public UserHistory() {
+	public UserWatchList() {
 		
 	}
 	
-	public UserHistory(int id, int movieId, int userId, Date viewDate) {
+	public UserWatchList(int id, int movieId, int userId, Date registryDate) {
 		super();
 		this.id = id;
 		this.movieId = movieId;
 		this.userId = userId;
-		this.viewDate = viewDate;
-
+		this.registryDate = registryDate;
 	}
 
 	public int getId() {
@@ -62,11 +61,11 @@ public class UserHistory {
 		this.userId = userId;
 	}
 	
-	public void setViewDate(Date viewDate) {
-		this.viewDate = viewDate;
+	public void setRegistryDate(Date registryDate) {
+		this.registryDate = registryDate;
 	}
 	
-	public Date getViewDate() {
-		return viewDate;
+	public Date getRegistryDate() {
+		return registryDate;
 	}
 }
