@@ -1,7 +1,10 @@
 package com.streaming.helpdesk.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,26 +17,33 @@ import com.streaming.helpdesk.repository.HelpDeskRepository;
 
 
 @RestController
-@RequestMapping(value = "api/v1")
+@RequestMapping(value = "helpdesk/")
 
 public class HelpDeskController {
 	
 	@Autowired
 	private HelpDeskRepository helpdeskrepository;
 	
+	@PostMapping
+	@RequestMapping(value = "Novo", method= RequestMethod.POST)
+	public ResponseEntity<HelpDesk> save (@RequestBody HelpDesk helpdesk){
+		helpdeskrepository.save(helpdesk);
+		return new ResponseEntity<>(helpdesk,HttpStatus.OK);
+		
+	}
 	
- 	
+//	@GetMapping
 //	@RequestMapping(value = "/helpdesk/{descricao}" , method = RequestMethod.GET)
-//    public HelpDesk AddHelpDesk (@RequestBody HelpDesk helpdesk) {
-//       return helpdeskrepository.save(helpdesk);
+//		public HelpDesk AddHelpDesk (@PathVariable("descricao") String descricao) {
+//		HelpDesk helpdesk = new HelpDesk();
+//		helpdesk.setDescricao(descricao);
+//		return helpdeskrepository.save(helpdesk);
+//    }
 	
 	
-	@RequestMapping(value = "/helpdesk/{descricao}" , method = RequestMethod.GET)
-		public HelpDesk AddHelpDesk (@PathVariable("descricao") String descricao) {
-		HelpDesk helpdesk = new HelpDesk();
-		helpdesk.setDescricao(descricao);
-		return helpdeskrepository.save(helpdesk);
-    }
+	
+	
+	
 }	
 	
 

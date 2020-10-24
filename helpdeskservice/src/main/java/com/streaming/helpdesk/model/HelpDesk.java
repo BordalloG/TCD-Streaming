@@ -2,6 +2,8 @@ package com.streaming.helpdesk.model;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 @Entity
 @Table
 public class HelpDesk {
@@ -9,6 +11,7 @@ public class HelpDesk {
 	 @Id
 	 @GeneratedValue
 	 private long id;
+	 @JsonProperty("descricao")
 	 private String descricao;
 	 
 	 public HelpDesk ()
