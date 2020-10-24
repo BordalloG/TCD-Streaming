@@ -43,8 +43,8 @@ public class MovieController {
     }
 
     @GetMapping("/movies/{movieId}")
-    public ResponseEntity<Movie> getMovieById(@PathVariable Long id) throws  ResourceNotFoundException {
-        Movie movie = movieRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Movie not Found"));
+    public ResponseEntity<Movie> getMovieById(@PathVariable Long movieId) throws  ResourceNotFoundException {
+        Movie movie = movieRepository.findById(movieId).orElseThrow(() -> new ResourceNotFoundException("Movie not Found"));
         return ResponseEntity.ok().body(movie);
     }
 
@@ -67,6 +67,7 @@ public class MovieController {
         String jsonString = new JSONObject()
                 .put("userId", userId)
                 .put("movieId", movieId)
+                .put("genreId", movie.getGenre().getId())
                 .toString();
 
         sendMessage(jsonString,"movies-movie-watched");
