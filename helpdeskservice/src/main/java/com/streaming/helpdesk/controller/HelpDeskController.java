@@ -29,31 +29,20 @@ public class HelpDeskController {
 	private HelpDeskRepository helpdeskrepository;
 	
 	@PostMapping
-	@RequestMapping(value = "Novo", method= RequestMethod.POST)
+	@RequestMapping(value = "NewTask", method= RequestMethod.POST)
 	public ResponseEntity<HelpDesk> save (@RequestBody HelpDesk helpdesk){
 		helpdeskrepository.save(helpdesk);
 		return new ResponseEntity<>(helpdesk,HttpStatus.OK);
 		
 	}
-	@PostMapping
-	@RequestMapping(value = "Consultar", method= RequestMethod.POST)
-	public ResponseEntity<Optional<HelpDesk>> findById (@RequestBody Integer TaskId){
+	@GetMapping
+	@RequestMapping(value = "FindTask/{TaskId}")
+	public ResponseEntity<Optional<HelpDesk>> findById (@PathVariable Long TaskId){
 		Optional<HelpDesk> helpdesk;
 		helpdesk = helpdeskrepository.findById(TaskId);
 		return new ResponseEntity<Optional<HelpDesk>>(helpdesk, HttpStatus.OK);
 		
 	}
-
-//	@GetMapping
-//	@RequestMapping(value = "/helpdesk/{descricao}" , method = RequestMethod.GET)
-//		public HelpDesk AddHelpDesk (@PathVariable("descricao") String descricao) {
-//		HelpDesk helpdesk = new HelpDesk();
-//		helpdesk.setDescricao(descricao);
-//		return helpdeskrepository.save(helpdesk);
-//    }
-	
-	
-	
 	
 	
 }	
