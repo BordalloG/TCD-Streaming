@@ -10,6 +10,7 @@ public class HelpDesk {
 	
 	 @Id
 	 @GeneratedValue
+	 @JsonProperty("id")
 	 private long id;
 	 @JsonProperty("descricao")
 	 private String descricao;
