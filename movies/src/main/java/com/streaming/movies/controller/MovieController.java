@@ -75,7 +75,6 @@ public class MovieController {
         String jsonString = new JSONObject()
                 .put("userId", userId)
                 .put("movieId", movieId)
-                .put("genreId", movie.getGenre().getId())
                 .toString();
 
         sendMessage(jsonString,"movies-movie-watched");
@@ -105,9 +104,9 @@ public class MovieController {
     }
 
     private boolean userExist(long userId) {
-        var serviceUri = getUserServiceInstance();
-        var requestUri = String.format("%s/v1/user/%s",serviceUri,userId);
-        var response = restTemplate.getForObject(requestUri, Object.class);
+        String serviceUri = getUserServiceInstance();
+        String requestUri = String.format("%s/v1/user/%s",serviceUri,userId);
+        Object response = restTemplate.getForObject(requestUri, Object.class);
         return response != null;
 
     }

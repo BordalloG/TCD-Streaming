@@ -1,8 +1,11 @@
 package com.netflix.userhistoryservice.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
@@ -11,6 +14,7 @@ import org.springframework.cloud.stream.annotation.StreamListener;
 import org.springframework.cloud.stream.messaging.Sink;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -115,15 +119,22 @@ public class UserHistoryService {
 		}
 	}
 		
-	@StreamListener(target = Sink.INPUT)
-	public void consumerUserHistoryEvent(@Payload UserHistory event) {
-		System.out.println("Received a new user history data UserId" + event.getUserId() + " MovieId: " + event.getMovieId());
-		userHistoryRepository.save(event);
-	}
-	
-	@StreamListener(target = Sink.INPUT)
-	public void consumerUserWatchListEvent(@Payload UserWatchList event) {
-		System.out.println("Received a new user watchlist data UserId" + event.getUserId() + " MovieId: " + event.getMovieId());	
-		userWatchListRepository.save(event);
-	}
+    @KafkaListener(id = "movie-watched", topics = "movies-movie-watched")
+    public void listenWatchedMovies(String message) throws Exception {
+    	JSONObject messsageJson = new JSONObject(message);
+    	
+    	UserHistory userHistory = new UserHistory(messsageJson.getInt("movieId"), messsageJson.getInt("userId"), new Date());
+    	
+    	userHistoryRepository.save(userHistory);
+    }
+    
+    @KafkaListener(id = "movie-watch-later", topics = "movie-watch-later")
+    public void listenWatchLaterList(String message) throws Exception {
+    	System.out.println("Received Event: " + message);
+    	JSONObject messsageJson = new JSONObject(message);
+    	
+    	UserWatchList userWatchList = new UserWatchList(messsageJson.getInt("movieId"), messsageJson.getInt("userId"), new Date());
+    	
+    	userWatchListRepository.save(userWatchList);
+    }
 }
