@@ -1,4 +1,4 @@
-package com.netflix.userhistoryservice.entity;
+package com.netflix.userhistoryservice.model;
 
 import java.util.Date;
 import java.util.List;
@@ -15,5 +15,15 @@ public class UserHistoryResponse {
 
 	@JsonProperty("history")
 	private List<WatchHistory> history;
+	
+	public UserHistoryResponse(int id, String userName) {
+		this.id = id;
+		this.userName = userName;
+	}
+	
+	public void addMovieToHistory(String movieName, Date watchDate) {
+
+		this.history.add(new WatchHistory(movieName, watchDate));	
+	}
 
 }
