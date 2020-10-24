@@ -22,6 +22,8 @@ public class UserServiceController {
 	public ResponseEntity<?> findById(@PathVariable(name = "userId") int userId) {
 		User userResult  = userService.findByUserId(userId);
 		
+		if(userResult == null) return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+		
 		return new ResponseEntity<>(userResult, HttpStatus.OK);
 	}
 
