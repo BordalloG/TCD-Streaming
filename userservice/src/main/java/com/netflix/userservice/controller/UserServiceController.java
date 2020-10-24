@@ -18,9 +18,9 @@ public class UserServiceController {
 	@Autowired
 	UserService userService;
 	
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public ResponseEntity<?> findById(@PathVariable(name = "id") int id) {
-		User userResult  = userService.findById(id);
+	@RequestMapping(value = "/{userId}", method = RequestMethod.GET)
+	public ResponseEntity<?> findById(@PathVariable(name = "userId") int userId) {
+		User userResult  = userService.findByUserId(userId);
 		
 		return new ResponseEntity<>(userResult, HttpStatus.OK);
 	}

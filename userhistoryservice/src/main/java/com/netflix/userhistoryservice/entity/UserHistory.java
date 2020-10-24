@@ -4,6 +4,7 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -13,6 +14,7 @@ import javax.persistence.Table;
 public class UserHistory {
 
 	@Id
+	@GeneratedValue
 	private int id;
 
 	@Column(name = "user_id")
@@ -21,20 +23,19 @@ public class UserHistory {
 	@Column(name = "movie_id")
 	private int movieId;
 	
-	@Column(name = "view_date")
-	private Date viewDate;
+	@Column(name = "watch_date")
+	private Date watchDate;
 	
 
 	public UserHistory() {
 		
 	}
 	
-	public UserHistory(int id, int movieId, int userId, Date viewDate) {
+	public UserHistory(int movieId, int userId, Date watchDate) {
 		super();
-		this.id = id;
 		this.movieId = movieId;
 		this.userId = userId;
-		this.viewDate = viewDate;
+		this.watchDate = watchDate;
 
 	}
 
@@ -62,11 +63,11 @@ public class UserHistory {
 		this.userId = userId;
 	}
 	
-	public void setViewDate(Date viewDate) {
-		this.viewDate = viewDate;
+	public void setWatchDate(Date watchDate) {
+		this.watchDate = watchDate;
 	}
 	
-	public Date getViewDate() {
-		return viewDate;
+	public Date getWatchDate() {
+		return watchDate;
 	}
 }

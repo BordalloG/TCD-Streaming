@@ -12,8 +12,8 @@ public class UserService {
 	@Autowired
 	UserRepository userRepository;
 	
-	public User findById(int id) {
-		User user = userRepository.findById(id);
+	public User findByUserId(int userId) {
+		User user = userRepository.findById(userId);
 		
 		return user;
 	}

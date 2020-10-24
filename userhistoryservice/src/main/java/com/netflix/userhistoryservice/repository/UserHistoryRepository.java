@@ -9,4 +9,6 @@ import com.netflix.userhistoryservice.entity.UserHistory;
 public interface UserHistoryRepository extends JpaRepository<UserHistory, Integer> {
 
 	public List<UserHistory> findByUserId(int userId);
+	
+	public int getMovieViewsCount(long movieId);
 }
