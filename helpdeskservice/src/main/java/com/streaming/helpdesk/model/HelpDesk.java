@@ -11,33 +11,46 @@ public class HelpDesk {
 	 @Id
 	 @GeneratedValue
 	 @JsonProperty("id")
-	 private long id;
-	 @JsonProperty("descricao")
-	 private String descricao;
+	 private Long id;
+	 @JsonProperty("title")
+	 private String title;
+	 @JsonProperty("description")
+	 private String description;
+	 @JsonProperty("user")
+	 private String user;
 	 
 	 public HelpDesk ()
 	 {}
 	 
-	 public HelpDesk (String descricao)
-	 {
-		 this.descricao = descricao;
-	 }
-	 
-	 public long getId() {
+	 public Long getId() {
 	        return id;
 	    }
 	 
-	 public void setId(long id) {
+	 public void setId(Long id) {
 	        this.id = id;
 	    }
 
-	    public String getDescricao() {
-	        return descricao;
-	    }
+		public String getTitle() {
+			return title;
+		}
 
-	    public void setDescricao(String descricao) {
-	        this.descricao = descricao;
-	
+		public void setTitle(String title) {
+			this.title = title;
+		}
 
-         }
+		public String getDescription() {
+			return description;
+		}
+
+		public void setDescription(String description) {
+			this.description = description;
+		}
+
+		public String getUser() {
+			return user;
+		}
+
+		public void setUser(String user) {
+			this.user = user;
+		}
 }
