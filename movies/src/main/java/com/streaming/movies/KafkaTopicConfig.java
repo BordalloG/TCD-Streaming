@@ -11,4 +11,8 @@ public class KafkaTopicConfig {
     public NewTopic moviesMovieWatched () {
         return TopicBuilder.name("movies-movie-watched").build();
     }
+    @Bean
+    public NewTopic moviesMovieWatchLater () {
+        return TopicBuilder.name("movie-watch-later").build();
+    }
 }
