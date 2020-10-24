@@ -7,7 +7,7 @@ import com.streaming.helpdesk.model.*;
 import antlr.collections.List;
 
 @Repository
-public interface HelpDeskRepository extends JpaRepository<HelpDesk,Long> {
+public interface HelpDeskRepository extends JpaRepository<HelpDesk,String> {
 
-
+	
 }
