@@ -7,6 +7,7 @@ import com.streaming.movies.repository.GenreRepository;
 import com.streaming.movies.repository.LikeRepository;
 import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import com.streaming.movies.repository.MovieRepository;
 import com.streaming.movies.exception.ResourceNotFoundException;
 import org.json.JSONObject;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
@@ -26,8 +28,9 @@ public class MovieController {
     private KafkaTemplate<String, String> kafkaTemplate;
 
     @Autowired
-    public MovieController(KafkaTemplate<String, String> kafkaTemplate) {
+    public MovieController(KafkaTemplate<String, String> kafkaTemplate, RestTemplateBuilder restTemplateBuilder) {
         this.kafkaTemplate = kafkaTemplate;
+        this.restTemplate = restTemplateBuilder.build();
     }
     @Autowired
     private DiscoveryClient discoveryClient;
@@ -37,7 +40,7 @@ public class MovieController {
     private GenreRepository genreRepository;
     @Autowired
     private LikeRepository likeRepository;
-
+    private final RestTemplate restTemplate;
 
 
     @PostMapping("/movies")
@@ -65,8 +68,10 @@ public class MovieController {
 
     @PostMapping("/movies/{movieId}/watch/user/{userId}")
     public ResponseEntity<String> watch(@PathVariable Long movieId, @PathVariable Long userId) throws JSONException, ResourceNotFoundException {
+        if(!userExist(userId)){
+            throw new ResourceNotFoundException("user not found");
+        };
         Movie movie = movieRepository.findById(movieId).orElseThrow(()-> new ResourceNotFoundException("movie not found"));
-
         String jsonString = new JSONObject()
                 .put("userId", userId)
                 .put("movieId", movieId)
@@ -85,6 +90,27 @@ public class MovieController {
         return ResponseEntity.ok().body(String.format("Like registered to %s by user %s", movie.getTitle(), like.getUserId()));
     }
 
+    @PostMapping("/movies/{movieId}/watchLater/user/{userId}")
+    public ResponseEntity<String> watchLater(@PathVariable Long movieId, @PathVariable Long userId) throws ResourceNotFoundException, JSONException {
+         if(!userExist(userId)){
+            throw new ResourceNotFoundException("user not found");
+         };
+        Movie movie = movieRepository.findById(movieId).orElseThrow(()-> new ResourceNotFoundException("movie not found"));
+        String jsonString = new JSONObject()
+                .put("userId", userId)
+                .put("movieId", movieId)
+                .toString();
+        sendMessage(jsonString,"movie-watch-later");
+        return ResponseEntity.ok().body(String.format("The movie %s was added to user %s watch later list", movie.getTitle(), userId));
+    }
+
+    private boolean userExist(long userId) {
+        var serviceUri = getUserServiceInstance();
+        var requestUri = String.format("%s/v1/user/%s",serviceUri,userId);
+        var response = restTemplate.getForObject(requestUri, Object.class);
+        return response != null;
+
+    }
     private String getUserServiceInstance(){
         List<ServiceInstance> instances = discoveryClient.getInstances("userservice");
         if (instances.size() == 0) {
