@@ -10,5 +10,5 @@ public interface UserHistoryRepository extends JpaRepository<UserHistory, Intege
 
 	public List<UserHistory> findByUserId(int userId);
 	
-	public int getMovieViewsCount(long movieId);
+	//public int getMovieViewsCount(long movieId);
 }

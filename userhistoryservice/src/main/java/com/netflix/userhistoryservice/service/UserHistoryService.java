@@ -45,14 +45,12 @@ public class UserHistoryService {
 		
 		UserHistoryResponse historyResponse = new UserHistoryResponse(user.getId(), user.getName());
 
-		for(UserHistory u : userHistory) {		
-			// Obtem o filme assistido
-			Movie findedMovie = findMovieById(u.getMovieId());
-			
-			// Adiciona o filme ao histórico do usuário
-			historyResponse.addMovieToHistory(findedMovie.getTitle(), u.getWatchDate());				
-		}
-	
+		  for(UserHistory u : userHistory) {
+			 Movie findedMovie = findMovieById(u.getMovieId());
+		  
+			 historyResponse.addMovieToHistory(findedMovie.getTitle(), u.getWatchDate());
+		  }
+		 
 		return historyResponse;
 	}
 	
@@ -63,17 +61,15 @@ public class UserHistoryService {
 		UserWatchListResponse watchListResponse = new UserWatchListResponse(user.getId(), user.getName());
 
 		for(UserWatchList u : userWatchList) {		
-			// Obtem o filme da lista
 			Movie findedMovie = findMovieById(u.getMovieId());
-			
-			// Adiciona o filme à lista do usuário
+		
 			watchListResponse.addMovieToWatchList(findedMovie.getTitle(), u.getRegistryDate());				
 		}
 	
 		return watchListResponse;
 	}
 	
-	public List<MovieViewsCount> getMovieViewsCountByGenre(String genre){
+	public List<MovieViewsCount> getMovieViewsCountByGenre(int genre){
 		
 		List<MovieViewsCount> movieViewsCount = new ArrayList<MovieViewsCount>();
 		
@@ -81,25 +77,23 @@ public class UserHistoryService {
 		
 		for(Movie movie : movieList.getMovieList()) {
 			
-			MovieViewsCount mvc = new MovieViewsCount(movie.getTitle(), userHistoryRepository.getMovieViewsCount(movie.getId()));	
+			MovieViewsCount mvc = new MovieViewsCount(movie.getTitle(), 1);	//userHistoryRepository.getMovieViewsCount(movie.getId())
 			movieViewsCount.add(mvc);
 		}
 		
 		return movieViewsCount;		
 	}
 	
-	// TODO: OBTER MÉTODO COM O GUILHERME
 	private Movie findMovieById(int movieId) {
 		RestTemplate restTemplate = new RestTemplate();
-		String uri = String.format("%s/v1/movie/%s", getServiceInstanceURI("movieservice"), movieId);
-		ResponseEntity<Movie> restExchange = restTemplate.exchange(uri, HttpMethod.GET, null, Movie.class,
-				movieId);
+		String uri = String.format("%s/api/v1/movies/%s", getServiceInstanceURI("movies"), movieId);
+		ResponseEntity<Movie> restExchange = restTemplate.exchange(uri, HttpMethod.GET, null, Movie.class, movieId);
 		return restExchange.getBody();	
 	}
 	
-	private MovieList getMoviesListByGenre(String genre){
+	private MovieList getMoviesListByGenre(int genre){
 		RestTemplate restTemplate = new RestTemplate();
-		String uri = String.format("%s/v1/movieslist/%s", getServiceInstanceURI("movieservice"), genre);
+		String uri = String.format("%s/api/v1/movies/genre/%s", getServiceInstanceURI("movies"), genre);
 		ResponseEntity<MovieList> restExchange = restTemplate.exchange(uri, HttpMethod.GET, null, MovieList.class, genre);
 
 		return restExchange.getBody();
@@ -107,7 +101,7 @@ public class UserHistoryService {
 	
 	private User findUserById(int userId) { 
 		RestTemplate restTemplate = new RestTemplate();
-		String uri = String.format("%s/v1/movieservice/%s", getServiceInstanceURI("movieservice"), userId);
+		String uri = String.format("%s/v1/user/%s", getServiceInstanceURI("userservice"), userId);
 		ResponseEntity<User> restExchange = restTemplate.exchange(uri, HttpMethod.GET, null, User.class, userId);
 		return restExchange.getBody();	
 	}

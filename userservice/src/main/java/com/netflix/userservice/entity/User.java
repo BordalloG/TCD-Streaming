@@ -7,24 +7,31 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 @Entity
 @Table(name = "tbl_user")
 public class User {
 
 	@Id
+	@JsonProperty("id")
 	private int id;
 
 	@Column(name = "name")
+	@JsonProperty("name")
 	private String name;
 
 	@Column(name = "password")
+	@JsonProperty("password")
 	private String password;
 	
 	@Column(name = "created_date")
+	@JsonProperty("createdDate")
 	private Date createdDate;
 	
 	@Column(name = "status")
+	@JsonProperty("status")
 	private int status;
 
 	public User() {

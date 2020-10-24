@@ -1,8 +1,13 @@
 package com.netflix.userhistoryservice.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Genre {
 
+	@JsonProperty("id")
     private long id;
+	
+	@JsonProperty("title")
     private String title;
 
     public Genre(){}

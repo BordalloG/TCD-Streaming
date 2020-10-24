@@ -1,5 +1,6 @@
 package com.netflix.userhistoryservice.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -19,6 +20,7 @@ public class UserWatchListResponse {
 	public UserWatchListResponse(int id, String userName) {
 		this.id = id;
 		this.userName = userName;
+		this.watchList = new ArrayList<>();
 	}
 	
 	public void addMovieToWatchList(String movieName, Date registryDate) {

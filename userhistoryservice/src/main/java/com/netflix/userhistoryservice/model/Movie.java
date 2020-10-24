@@ -1,11 +1,25 @@
 package com.netflix.userhistoryservice.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Movie {
 
+	@JsonProperty("id")
     private long id;
+    
+	@JsonProperty("title")
     private String title;
+	
+	@JsonProperty("description")
     private String description;
+	
+	@JsonProperty("year")
     private int year;
+	
+	@JsonProperty("likes")
+    private int likes;
+	
+	@JsonProperty("genre")
     private Genre genre;
 
     public Movie(){}

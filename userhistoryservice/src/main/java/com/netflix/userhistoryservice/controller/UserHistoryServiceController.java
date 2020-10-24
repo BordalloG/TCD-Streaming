@@ -22,15 +22,14 @@ public class UserHistoryServiceController {
 	@Autowired
 	UserHistoryService userHistoryService;
 	
-	@RequestMapping(value = "/history/{userId}", method = RequestMethod.GET)
+	@RequestMapping(value = "/history/user/{userId}", method = RequestMethod.GET)
 	public ResponseEntity<?> findUserHistoryById(@PathVariable(name = "userId") int userId) {
 		UserHistoryResponse userHistory  = userHistoryService.findHistoryByUserId(userId);
 		
 		return new ResponseEntity<>(userHistory, HttpStatus.OK);
 	}
 	
-	
-	@RequestMapping(value = "/watchlist/{userId}", method = RequestMethod.GET)
+	@RequestMapping(value = "/watchlist/user/{userId}", method = RequestMethod.GET)
 	public ResponseEntity<?> findUserWatchListById(@PathVariable(name = "userId") int userId) {
 		UserWatchListResponse userWatchList  = userHistoryService.findWatchListByUserId(userId);
 		
@@ -38,7 +37,7 @@ public class UserHistoryServiceController {
 	}
 	
 	@RequestMapping(value = "/movies/viewscount/genre/{genre}", method = RequestMethod.GET)
-	public ResponseEntity<?> getMoviesViewsCountByGenre(@PathVariable(name = "genre") String genre) {
+	public ResponseEntity<?> getMoviesViewsCountByGenre(@PathVariable(name = "genre") int genre) {
 		List<MovieViewsCount> moviesViewsCount  = userHistoryService.getMovieViewsCountByGenre(genre);
 		
 		return new ResponseEntity<>(moviesViewsCount, HttpStatus.OK);

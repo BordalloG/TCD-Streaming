@@ -36,7 +36,6 @@ public class UserHistory {
 		this.movieId = movieId;
 		this.userId = userId;
 		this.watchDate = watchDate;
-
 	}
 
 	public int getId() {

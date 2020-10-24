@@ -2,17 +2,28 @@ package com.netflix.userhistoryservice.model;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class User {
 
+	@JsonProperty("id")
 	private int id;
-
+	
+	@JsonProperty("name")
 	private String name;
-
+	
+	@JsonProperty("password")
 	private String password;
 	
+	@JsonProperty("createdDate")
 	private Date createdDate;
 	
+	@JsonProperty("status")
 	private int status;
+	
+	public User() {
+		
+	}
 
 	public User(int id, String name, String password, Date createdDate, int status) {
 		super();
