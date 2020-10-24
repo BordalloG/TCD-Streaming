@@ -12,15 +12,26 @@ public class Movie {
     private String title;
     private String description;
     private int year;
+    private int likes;
+
+    public int getLikes() {
+        return likes;
+    }
+
+    public void setLikes(int likes) {
+        this.likes = likes;
+    }
+
     @ManyToOne(optional = true)
     private Genre genre;
 
     public Movie(){}
 
-    public Movie(String title, String description, int year, Genre genre) {
+    public Movie(String title, String description, int year, int likes, Genre genre) {
         this.title = title;
         this.description = description;
         this.year = year;
+        this.likes = likes;
         this.genre = genre;
     }
 

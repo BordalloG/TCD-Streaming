@@ -22,10 +22,10 @@ public class MoviesApplication {
 		return  args -> {
 			Genre g = new Genre("Comedia");
 			Genre g2 = new Genre("Terror");
-			Movie m = new Movie("Filme 1","Filme bacana", 2020, g);
-			Movie m2 = new Movie("Filme 2","Filme maneiro", 2019, g);
-			Movie m3 = new Movie("Filme 3","Filme assustador", 2017, g2);
-			Movie m4 = new Movie("Filme 4","Corona", 2020, g2);
+			Movie m = new Movie("Filme 1","Filme bacana", 2020, 0, g);
+			Movie m2 = new Movie("Filme 2","Filme maneiro", 2019, 0, g);
+			Movie m3 = new Movie("Filme 3","Filme assustador", 2017, 0, g2);
+			Movie m4 = new Movie("Filme 4","Corona", 2020, 0, g2);
 
 			gr.save(g);
 			gr.save(g2);

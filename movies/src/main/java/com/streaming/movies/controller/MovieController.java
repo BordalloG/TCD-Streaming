@@ -1,25 +1,20 @@
 package com.streaming.movies.controller;
 
-import com.fasterxml.jackson.databind.ser.std.StringSerializer;
 import com.streaming.movies.model.Genre;
+import com.streaming.movies.model.Likes;
 import com.streaming.movies.model.Movie;
 import com.streaming.movies.repository.GenreRepository;
-import org.apache.kafka.clients.producer.ProducerConfig;
+import com.streaming.movies.repository.LikeRepository;
+import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.ResponseEntity;
-import org.springframework.kafka.core.DefaultKafkaProducerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.kafka.core.ProducerFactory;
-import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 import com.streaming.movies.repository.MovieRepository;
 import com.streaming.movies.exception.ResourceNotFoundException;
+import org.json.JSONObject;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @CrossOrigin(origins = "http://localhost:9000")
 @RestController
@@ -37,12 +32,17 @@ public class MovieController {
     private MovieRepository movieRepository;
     @Autowired
     private GenreRepository genreRepository;
+    @Autowired
+    private LikeRepository likeRepository;
+
+
+
     @PostMapping("/movies")
     public Movie createMovie(@RequestBody Movie movie) {
         return movieRepository.save(movie);
     }
 
-    @GetMapping("/movies/{id}")
+    @GetMapping("/movies/{movieId}")
     public ResponseEntity<Movie> getMovieById(@PathVariable Long id) throws  ResourceNotFoundException {
         Movie movie = movieRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Movie not Found"));
         return ResponseEntity.ok().body(movie);
@@ -60,11 +60,27 @@ public class MovieController {
       return ResponseEntity.ok().body(movieRepository.findByTitleContaining(keyWord));
     }
 
-    @PostMapping("/watch")
-    public ResponseEntity<String> watch() {
-        sendMessage("teste for movieid","movies-movie-watched");
+    @PostMapping("/movies/{movieId}/watch/user/{userId}")
+    public ResponseEntity<String> watch(@PathVariable Long movieId, @PathVariable Long userId) throws JSONException, ResourceNotFoundException {
+        Movie movie = movieRepository.findById(movieId).orElseThrow(()-> new ResourceNotFoundException("movie not found"));
+
+        String jsonString = new JSONObject()
+                .put("userId", userId)
+                .put("movieId", movieId)
+                .toString();
+
+        sendMessage(jsonString,"movies-movie-watched");
         return ResponseEntity.ok().body("Thanks for watching =]");
     }
+
+    @PostMapping("/movies/{movieId}/like/user/{userId}")
+    public ResponseEntity<String> like(@PathVariable Long movieId, @PathVariable Long userId) throws  ResourceNotFoundException {
+        Movie movie = movieRepository.findById(movieId).orElseThrow(()-> new ResourceNotFoundException("movie not found"));
+        Likes like = new Likes(movieId, userId);
+        likeRepository.save(like);
+        return ResponseEntity.ok().body(String.format("Like registered to %s by user %s", movie.getTitle(), like.getUserId()));
+    }
+
 
     void sendMessage(String message, String topicName) {
         kafkaTemplate.send(topicName, message);
