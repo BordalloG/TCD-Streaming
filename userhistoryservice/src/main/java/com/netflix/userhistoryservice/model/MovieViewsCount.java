@@ -4,11 +4,14 @@ public class MovieViewsCount {
 
 	private String movieName;
 	
+	private String genre;
+	
 	private int numberOfViews;
 	
-	public MovieViewsCount(String movieName, int numberOfViews)
+	public MovieViewsCount(String movieName, String genre, int numberOfViews)
 	{
 		this.movieName = movieName;
+		this.genre = genre;
 		this.numberOfViews = numberOfViews;
 	}
 
@@ -28,4 +31,11 @@ public class MovieViewsCount {
 		this.numberOfViews = numberOfViews;
 	}
 	
+	public String getGenre() {
+		return genre;
+	}
+
+	public void setGenre(String genre) {
+		this.genre = genre;
+	}
 }

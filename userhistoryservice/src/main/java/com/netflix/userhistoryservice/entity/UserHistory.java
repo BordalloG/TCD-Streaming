@@ -19,10 +19,10 @@ public class UserHistory {
 	private int id;
 
 	@Column(name = "user_id")
-	private int userId;
+	private long userId;
 
 	@Column(name = "movie_id")
-	private int movieId;
+	private long movieId;
 	
 	@Column(name = "watch_date")
 	private Date watchDate;
@@ -32,13 +32,13 @@ public class UserHistory {
 		
 	}
 	
-	public UserHistory(int movieId, int userId, Date watchDate) {
+	public UserHistory(long movieId, long userId, Date watchDate) {
 		this.movieId = movieId;
 		this.userId = userId;
 		this.watchDate = watchDate;
 	}
 	
-	public UserHistory(int id, int movieId, int userId, Date watchDate) {
+	public UserHistory(int id, long movieId, long userId, Date watchDate) {
 		this.id = id;
 		this.movieId = movieId;
 		this.userId = userId;
@@ -53,19 +53,19 @@ public class UserHistory {
 		this.id = id;
 	}
 
-	public int getMovieId() {
+	public long getMovieId() {
 		return movieId;
 	}
 
-	public void setMovieId(int movieId) {
+	public void setMovieId(long movieId) {
 		this.movieId = movieId;
 	}
 
-	public int getUserId() {
+	public long getUserId() {
 		return userId;
 	}
 
-	public void setUserId(int userId) {
+	public void setUserId(long userId) {
 		this.userId = userId;
 	}
 	

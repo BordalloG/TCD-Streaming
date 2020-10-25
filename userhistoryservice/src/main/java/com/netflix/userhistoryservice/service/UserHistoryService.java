@@ -1,26 +1,22 @@
 package com.netflix.userhistoryservice.service;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
-import org.springframework.cloud.stream.annotation.EnableBinding;
-import org.springframework.cloud.stream.annotation.StreamListener;
-import org.springframework.cloud.stream.messaging.Sink;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.kafka.annotation.KafkaListener;
-import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.netflix.userhistoryservice.model.Movie;
-import com.netflix.userhistoryservice.model.MovieList;
 import com.netflix.userhistoryservice.model.MovieViewsCount;
 import com.netflix.userhistoryservice.model.User;
 import com.netflix.userhistoryservice.entity.UserHistory;
@@ -30,7 +26,6 @@ import com.netflix.userhistoryservice.model.UserWatchListResponse;
 import com.netflix.userhistoryservice.repository.UserHistoryRepository;
 import com.netflix.userhistoryservice.repository.UserWatchListRepository;
 
-@EnableBinding(Sink.class)
 @Service
 public class UserHistoryService {
 
@@ -77,28 +72,31 @@ public class UserHistoryService {
 		
 		List<MovieViewsCount> movieViewsCount = new ArrayList<MovieViewsCount>();
 		
-		MovieList movieList = getMoviesListByGenre(genre);
+		List<Movie> movieList = getMoviesListByGenre(genre);
 		
-		for(Movie movie : movieList.getMovieList()) {
+		for(Movie movie : movieList) {					
+			int viewsCount = userHistoryRepository.countByMovieId(movie.getId());	
+			MovieViewsCount mvc = new MovieViewsCount(movie.getTitle(), movie.getGenre().getTitle(), viewsCount);	
 			
-			MovieViewsCount mvc = new MovieViewsCount(movie.getTitle(), 1);	//userHistoryRepository.getMovieViewsCount(movie.getId())
 			movieViewsCount.add(mvc);
 		}
 		
+		movieViewsCount.sort(Comparator.comparing(MovieViewsCount::getNumberOfViews).reversed());
+				
 		return movieViewsCount;		
 	}
 	
-	private Movie findMovieById(int movieId) {
+	private Movie findMovieById(long movieId) {
 		RestTemplate restTemplate = new RestTemplate();
 		String uri = String.format("%s/api/v1/movies/%s", getServiceInstanceURI("movies"), movieId);
 		ResponseEntity<Movie> restExchange = restTemplate.exchange(uri, HttpMethod.GET, null, Movie.class, movieId);
 		return restExchange.getBody();	
 	}
 	
-	private MovieList getMoviesListByGenre(int genre){
+	private List<Movie> getMoviesListByGenre(int genre){
 		RestTemplate restTemplate = new RestTemplate();
 		String uri = String.format("%s/api/v1/movies/genre/%s", getServiceInstanceURI("movies"), genre);
-		ResponseEntity<MovieList> restExchange = restTemplate.exchange(uri, HttpMethod.GET, null, MovieList.class, genre);
+		ResponseEntity<List<Movie>> restExchange = restTemplate.exchange(uri, HttpMethod.GET, null, new ParameterizedTypeReference<List<Movie>>(){}, genre);
 
 		return restExchange.getBody();
 	}
