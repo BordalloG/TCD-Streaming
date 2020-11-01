@@ -15,7 +15,7 @@ First of all, you gonna need Kafka running.
 For this, use the following command:
 > docker-compose up -d  
 
-Check [docker-compose file](ttps://github.com/BordalloG/TCD-Streaming/blob/master/docker-compose.yml) for more details.
+Check [docker-compose file](https://github.com/BordalloG/TCD-Streaming/blob/master/docker-compose.yml) for more details.
 
 Then, you can import all projects to your favorite IDE and start them.  
 
