@@ -1,4 +1,4 @@
-package com.netflix.servicediscovery;
+package com.streaming.servicediscovery;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
